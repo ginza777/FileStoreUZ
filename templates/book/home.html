@@ -1,0 +1,496 @@
+{% extends "book/index.html" %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+
+
+<section class="home" id="home">
+
+    <div class="row">
+
+        <div class="content">
+            <h3>Filestore.uz<h3 style="color: green"><b><i>books</i></b></h3></h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam deserunt nostrum accusamus. Nam alias sit necessitatibus, aliquid ex minima at!</p>
+            <a href="#arrivals" class="btn">view more</a>
+        </div>
+
+        <div class="swiper books-slider">
+            <div class="swiper-wrapper">
+                {% if data_bar %}
+                    {% for book in data_bar %}
+
+
+                <a href="{% url 'book_detail' book.slug %}" class="swiper-slide"><img style="max-width: 200px ;max-height: 300px" src="{{ book.img }}" alt=""></a>
+                {% endfor %}
+
+                {% endif %}
+            </div>
+            <img src="{%  static  "book/image/stand.png" %}" class="stand" alt="">
+        </div>
+
+    </div>
+
+</section>
+
+<!-- home section ense  -->
+
+<!-- icons section starts  -->
+
+<section class="icons-container">
+
+{#    <div class="icons">#}
+{#        <i class="fas fa-shipping-fast"></i>#}
+{#        <div class="content">#}
+{#            <h3>free shipping</h3>#}
+{#            <p>order over $100</p>#}
+{#        </div>#}
+{#    </div>#}
+
+    <div class="icons">
+        <i class="fas fa-lock"></i>
+        <div class="content">
+            <h3>secure payment</h3>
+            <p>100 secure payment</p>
+        </div>
+    </div>
+
+    <div class="icons">
+        <i class="fas fa-redo-alt"></i>
+        <div class="content">
+            <h3>easy returns</h3>
+            <p>10 days returns</p>
+        </div>
+    </div>
+
+    <div class="icons">
+        <i class="fas fa-headset"></i>
+        <div class="content">
+            <h3>24/7 support</h3>
+            <p>call us anytime</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- icons section ends -->
+
+<!-- featured section starts  -->
+
+<section class="featured" id="featured">
+
+    <h1 class="heading"> <span>Eng ommabop</span> </h1>
+
+    <div class="swiper featured-slider">
+
+        <div class="swiper-wrapper">
+            {% if books %}
+                {% for book in books %}
+
+            <div class="swiper-slide box">
+                <div class="icons">
+                    <a href="{%  url "search_books" %}" class="fas fa-search"></a>
+                    <a href="#" class="fas fa-heart"></a>
+                    <a href="{% url 'book_detail' book.slug %}" class="fas fa-eye"></a>
+                </div>
+                <div class="image">
+                    <img src="{{book.img}}" alt="">
+                </div>
+                <div class="content">
+                    <h2>{{ book.name |slice:"40"}} ...</h2>
+{#                    <div class="price">free <span>premium</span></div>#}
+                    <a href="{% url 'book_detail' book.slug %}" class="btn">view</a>
+                </div>
+            </div>
+                {% endfor %}
+
+            {% endif %}
+
+
+
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+    </div>
+
+</section>
+
+<!-- featured section ends -->
+
+<!-- newsletter section starts -->
+
+<section class="newsletter">
+
+    <form action="{% url "search_books" %}" method="post">
+        {% csrf_token %}
+        <h3>Qidirish</h3>
+        <input type="text" name="search" placeholder="qidirish uchun bosing" id="" class="box">
+        <input type="submit" value="qidirish" class="btn">
+    </form>
+
+</section>
+
+<!-- newsletter section ends -->
+
+<!-- arrivals section starts  -->
+
+<section class="arrivals" id="arrivals">
+
+    <h1 class="heading"> <span>Yangi kitoblar</span> </h1>
+    {% if data_new  %}
+
+    <div class="swiper arrivals-slider">
+
+        <div class="swiper-wrapper">
+            {% for data in data_new %}
+
+
+
+
+            <a href="{% url "book_detail" data.slug  %}" class="swiper-slide box">
+                <div class="image">
+                    <img src="{{ data.img }}"    style="max-height:200px ;max-width: 100px" alt="">
+                </div>
+                <div class="content">
+                    <h2>{{ data.name }}</h2>
+
+                    <div class="price">Free<span>premium</span></div>
+
+
+<div class="stars" id="stars">
+
+
+
+
+
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </a>
+
+
+            {% endfor %}
+
+
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+    {% if data_new2  %}
+
+    <div class="swiper arrivals-slider">
+
+        <div class="swiper-wrapper">
+            {% for data in data_new %}
+
+
+
+
+            <a href="{% url "book_detail" data.slug  %}" class="swiper-slide box">
+                <div class="image">
+                    <img src="{{ data.img }}"    style="max-height:200px ;max-width: 100px" alt="">
+                </div>
+                <div class="content">
+                    <h2>{{ data.name }}</h2>
+
+                    <div class="price">Free<span>premium</span></div>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </a>
+
+
+            {% endfor %}
+
+
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+
+</section>
+
+<!-- arrivals section ends -->
+
+<!-- deal section starts  -->
+
+<section class="deal">
+
+    <div class="content">
+        <h3>Qulay va tez !!!</h3>
+        <h1 style="color:red;">Filestore.uz</h1>
+        <p>barcha turdagi kitoblar va fayllarni tez va oson toping.</p>
+     <a href="#" class="btn">View</a>
+    </div>
+
+    <div class="image">
+        <img src="{%  static   "book/image/deal-img.jpg"%}" alt="">
+    </div>
+
+</section>
+
+<!-- deal section ends -->
+
+<!-- reviews section starts  -->
+
+<section class="reviews" id="reviews">
+
+    <h1 class="heading"> <span>client's reviews</span> </h1>
+
+    <div class="swiper reviews-slider">
+
+        <div class="swiper-wrapper">
+
+            <div class="swiper-slide box">
+                <img src="{%  static   "book/image/pic-1.png"%}" alt="">
+                <h3>john deo</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur nihil ipsa placeat. Aperiam at sint, eos ex similique facere hic.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+
+            <div class="swiper-slide box">
+                <img src="{%  static  "book/image/pic-2.png" %}" alt="">
+                <h3>john deo</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur nihil ipsa placeat. Aperiam at sint, eos ex similique facere hic.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+
+            <div class="swiper-slide box">
+                <img src="{%  static "book/image/pic-3.png"  %}" alt="">
+                <h3>john deo</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur nihil ipsa placeat. Aperiam at sint, eos ex similique facere hic.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+            <div class="swiper-slide box">
+                <img src="{%  static  "book/image/pic-4.png" %}" alt="">
+                <h3>john deo</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur nihil ipsa placeat. Aperiam at sint, eos ex similique facere hic.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+
+            <div class="swiper-slide box">
+                <img src="{%  static "book/image/pic-5.png"  %}" alt="">
+                <h3>john deo</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur nihil ipsa placeat. Aperiam at sint, eos ex similique facere hic.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+
+            <div class="swiper-slide box">
+                <img src="{%  static  "book/image/pic-6.png" %}" alt="">
+                <h3>john deo</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur nihil ipsa placeat. Aperiam at sint, eos ex similique facere hic.</p>
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- reviews section ends -->
+
+<!-- blogs section starts  -->
+
+<section class="blogs" id="blogs">
+
+    <h1 class="heading"> <span>bloglar</span> </h1>
+
+    <div class="swiper blogs-slider">
+
+        <div class="swiper-wrapper">
+
+          {% if blogs %}
+              {% for blog in blogs %}
+
+            <div class="swiper-slide box">
+                <div class="image">
+                    <img src="{{ blog.img.url }}" alt="">
+                </div>
+                <div class="content">
+                    <h2>{{ blog.title}}</h2>
+                    <p>{{ blog.description |slice:"40" }}</p>
+                    <a href="#" class="btn">read more</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- blogs section ends -->
+
+<!-- footer section starts  -->
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3>our locations</h3>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> india </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> USA </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> russia </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> france </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> japan </a>
+            <a href="#"> <i class="fas fa-map-marker-alt"></i> africa </a>
+        </div>
+
+        <div class="box">
+            <h3>quick links</h3>
+            <a href="#"> <i class="fas fa-arrow-right"></i> home </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> featured </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> arrivals </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> reviews </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> blogs </a>
+        </div>
+
+        <div class="box">
+            <h3>extra links</h3>
+            <a href="#"> <i class="fas fa-arrow-right"></i> account info </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> ordered items </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> privacy policy </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> payment method </a>
+            <a href="#"> <i class="fas fa-arrow-right"></i> our serivces </a>
+        </div>
+  {% if contact %}
+        <div class="box">
+            <h3>contact info</h3>
+            <a href="tel:{{ contact.number1 }}"> <i class="fas fa-phone"></i> {{ contact.number1}}</a>
+            <a href="tel:{{ contact.number2 }}"> <i class="fas fa-phone"></i> {{ contact.number2}}</a>
+
+            <a href="mailto:{{ contact.email }}"> <i class="fas fa-envelope"></i> {{ contact.email }} </a>
+            <img src="{%  static  "book/image/worldmap.png" %}" class="map" alt="">
+        </div>
+
+    </div>
+
+    <div class="share">
+
+        <a href="{{ contact.facebook }}" class="fab fa-facebook-f"></a>
+        <a href="{{ contact.telegram }}" class="fab fa-telegram"></a>
+        <a href="{{ contact.instagram }}" class="fab fa-instagram"></a>
+        <a href="{{ contact.linkedin }}" class="fab fa-linkedin"></a>
+        {% endif %}
+
+    </div>
+
+{#    <div class="credit"> created by <span>mr. web designer</span> | all rights reserved! </div>#}
+
+</section>
+
+<!-- footer section ends -->
+
+<!-- loader  -->
+
+
+
+
+
+<div class="login-form-container">
+
+    <div id="close-login-btn" class="fas fa-times"></div>
+
+    <form action="">
+        <h3>sign in</h3>
+        <span>username</span>
+        <input type="email" name="" class="box" placeholder="enter your email" id="">
+        <span>password</span>
+        <input type="password" name="" class="box" placeholder="enter your password" id="">
+        <div class="checkbox">
+            <input type="checkbox" name="" id="remember-me">
+            <label for="remember-me"> remember me</label>
+        </div>
+        <input type="submit" value="sign in" class="btn">
+        <p>forget password ? <a href="#">click here</a></p>
+        <p>don't have an account ? <a href="#">create one</a></p>
+    </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="{%  static  "book/js/script.js" %}"></script>
+<script src="{%  static  "js/main.js" %}"></script>
+
+
+
+
+
+
+
+{% endblock %}

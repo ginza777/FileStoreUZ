@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileStore-Sign Up</title>
+    <link rel="stylesheet" href="{% static "styles.css"  %}">
+    <script src="{% static "scripts.js"  %}" defer></script>
+    <link rel="stylesheet" href="{%  static "book/css/style.css"  %}">
+</head>
+<style>
+.alert {
+  padding: 10px;
+  background-color: #f44336;
+  color: white;
+}
+h1 {
+  font-size: small;
+}
+.closebtn {
+  margin-left: 20px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+</style>
+<body>
+
+    <!--messages-->
+                    {% for message in messages %}
+                        <div class="alert">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                          <strong>Diqqat!</strong><h1>{{ message }}</h1>
+                        </div>
+
+
+
+                    {% endfor %}
+    <!--end messages-->
+<!-- bottom navbar  -->
+
+
+
+
+    <div class="container">
+        <div class="card center spacer">
+            <h1 class="title text-center">Register With</h1>
+            <div class="social-login">
+                <button class="social-btn">
+                    <img class="icon" src="{% static "icons/gmail.svg"  %}" alt="gmail icon">
+                    Gmail
+                </button>
+                <button class="social-btn">
+                    <img class="icon" src="{% static  "icons/facebook.svg"  %}" alt="gmail icon">
+                    Facebook
+                </button>
+            </div>
+            <div class="text-center line form-divider">or</div>
+            <form method="POST" action="{% url 'signup' %}" class="login-form spacer" name="signup" id="signup-form">
+                {% csrf_token %}
+
+                {%  if name and email%}
+                <div class="input-group">
+                    <img class="icon input-icon" src="{%  static "icons/profile-user.svg" %}" alt="">
+                    <input required name="username" id="username" name="username" type="text" class="form-input" value="{{ name }} " maxlength="16" minlength="6">
+                </div>
+                <div class="input-group">
+                    <img class="icon input-icon" src="{% static "icons/envelope.png" %}" alt="">
+                    <input required name="email" id="email"   name="email" type="email" value="{{ email }}" class="form-input" >
+                </div>
+                {% else %}
+                  <div class="input-group">
+                    <img class="icon input-icon" src="{%  static "icons/profile-user.svg" %}" alt="">
+                    <input required name="username" id="username" name="username" type="text" class="form-input" placeholder="Sherzamon Muhiddinov" maxlength="16" minlength="6">
+                </div>
+                <div class="input-group">
+                    <img class="icon input-icon" src="{% static "icons/envelope.png" %}" alt="">
+                    <input required name="email" id="email"   name="email" type="email" class="form-input" placeholder="Sherzamon@mail.com">
+                </div>
+                {% endif %}
+                <div class="input-group">
+                    <img class="icon input-icon" src="{%  static  "icons/key.svg" %}" alt="">
+                    <input required name="password1" id="password1" name="password1" type="password" class="form-input" placeholder="password" maxlength="22" minlength="8">
+                </div>
+                <div class="input-group">
+                    <img class="icon input-icon" src="{%  static  "icons/key.svg" %}" alt="">
+                    <input required name="password2" name="password2" id="password2" type="password" class="form-input" placeholder=" confirm password" maxlength="22" minlength="8">
+                </div>
+
+                <input type="submit" class="submit" value="Signup">
+            </form>
+
+        </div>
+
+
+    </div>
+<div>
+
+</div>
+    <div class="redirect">
+        Already have an account?&nbsp;<a href="{% url 'signin' %}" class="link" >Login</a>
+        <br><br>
+        <a href="#" class="link">Forgot password?</a>
+
+    </div>
+
+
+
+</body>
+</html>

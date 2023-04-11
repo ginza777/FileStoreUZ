@@ -1,0 +1,417 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileStore.uz-o'zingizga kerakli fayllarni bir zumda toping</title>
+    <link rel="shortcut icon" type="image/ico" href="{% static  "assets/favicon.ico"   %}">
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{%  static "book/css/style.css"  %}">
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<style>
+.alert1 {
+  padding: 10px;
+  background-color: #10d365;
+  color: white;
+}.alert2 {
+  padding: 10px;
+
+  background-color: #ff0000;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 20px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 30px;
+  line-height: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+</style>
+{% if user.is_authenticated %}
+                                                <div class="alert1">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                                    <strong><i>Username :  {{ user.username }}</i></strong></div>
+{% endif %}
+
+
+<body>
+    <!--messages-->
+
+    <!--end messages-->
+    <script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<!-- header section starts  -->
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+</script>
+
+<header class="header">
+
+    <div class="header-1">
+
+        <a href="{%  url 'files' %}" class="logo"> <i class="fas fa-book"></i> Fayllar-Filestore.uz  </a>
+
+{% if data %}
+            <form action="{% url  "search_books" %}" class="search-form"  method="post">{% csrf_token %}
+                {% if search  %}
+            <input type="search" name="search"  autocomplete="off"  placeholder="search here..." id="search-box"  value="{{ search }}" required>
+
+                {% else %}
+            <input type="search" name="search"  autocomplete="off"  placeholder="search here..." id="search-box"  value="" required>
+                {% endif %}
+
+
+                <label for="search-box" class="fas fa-search"></label>
+        </form>
+{% else %}
+
+                <form action="{% url  "search_files" %}" class="search-form"  method="post">{% csrf_token %}
+                {% if search  %}
+            <input type="search" name="search"  autocomplete="off"  placeholder="search here..." id="search-box"  value="{{ search }}" required>
+
+                {% else %}
+            <input type="search" name="search"  autocomplete="off"  placeholder="search here..." id="search-box"  value="" required>
+                {% endif %}
+
+
+                <label for="search-box" class="fas fa-search"></label>
+        </form>
+    {% endif %}
+        <div class="icons">
+            {% if user.is_authenticated %}
+                <div id="search-btn" class="fas fa-search"></div>
+
+
+            <div id="login-btn"  class="fas fa-user"><a style="color: red" href="{% url 'signout' %}">Logout</a></div>
+
+
+
+
+
+
+
+
+
+
+
+            {% else %}
+            <div id="search-btn" class="fas fa-search"></div>
+
+            <a href="#" class="fas fa-shopping-cart"></a>
+            <a href="{% url 'signin' %}"><div id="login-btn"  class="fas fa-user"></div></a>
+            <a href="{% url 'signup' %}"><div id="login-btn"  class="fas fa-user-plus"></div></a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+      <div class="header-2">
+        <nav class="navbar">
+            <a href="{% url 'books' %}">home</a>
+             <a href="{% url 'books' %}">Kitoblar</a>
+
+
+
+
+            <a href="#blogs">blogs</a>
+            <a href="{% url  'signin' %}">Sign In</a>
+            <a href="{%  url 'signup' %}">Sign Up</a>
+        </nav>
+    </div>
+
+</header>
+ {% if messages %}
+                    {% for message in messages %}
+
+
+                        {% if message.level  %}
+                            <div class="alert2">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                         <strong style="font-size: larger">{{ message }}</strong></div>
+                            {% else %}
+                                                    <div class="alert1">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            <strong>MUVOFAQQIYATLI !</strong>{{ message }}
+
+</div>
+                        {% endif %}
+
+
+
+
+                    {% endfor %}
+    {% endif %}
+<!-- header section ends -->
+
+<!-- bottom navbar  -->
+
+<nav class="bottom-navbar">
+    <a href="{% url 'books' %}" class="fas fa-home"></a>
+    <a href="{% url "files" %}" class="fas fa-list"></a>
+    <a href="#arrivals" class="fas fa-tags"></a>
+    <a href="#reviews" class="fas fa-comments"></a>
+    <a href="#blogs" class="fas fa-blog"></a>
+    <a href="{% url 'signin' %}" class="fas fa-user"></a>
+    <a href="{% url 'signup' %}" class="fas fa-user-plus"></a>
+</nav>
+
+<!-- search form  -->
+{% if data %}
+      {% if user.is_authenticated %}
+          <form action="{% url 'download_book' %}" method="post">
+          {% csrf_token %}
+<section class="deal">
+
+    <div class="content">
+            <div class="image">
+        <img style="max-width: 240px ;max-height: 320px" src="{{ data.img }}" alt="">
+</div>
+        <h3><i> nomi:</i>{{ data.name }}</h3>
+        <h2>{{ data.title }}</h2>
+        <p><i class="fa fa-eye"></i>{{ data.view }}</p>
+        <p><i class="fa fa-download"></i>{{ data.count}}</p>
+        <p><i class="fa fa-money"></i>{{ data.coin }}</p>
+
+
+
+
+
+
+
+
+        <input type="submit" value="download" name="url"  class="btn">
+
+        <input type="text"  value="{{ data.file }}"  name="url1"  hidden>
+
+        <input type="text"  value="{{ data.coin }}"  name="coin1"  hidden>
+        <input type="text"  value="{{ data.slug }}"  name="slug"  hidden>
+
+
+
+    </div>
+
+
+
+
+
+
+</section>
+
+</form>
+          {% else %}
+
+   <section class="deal">
+
+    <div class="content">
+        <h3><i>nomi:</i>  {{ data.name }}</h3>
+        <h2>{{ data.title }}</h2>
+        <p><i class="fa fa-eye"></i>{{ data.view }}</p>
+        <p><i class="fa fa-download"></i>{{ data.count}}</p>
+        <p><i class="fa fa-money"></i>{{ data.coin }}</p>
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <div class="image">
+        <img style="max-width: 240px ;max-height: 320px" src="{{ data.img }}" alt="">
+    </div>
+
+
+
+
+</section>
+{% endif %}
+{% endif %}
+
+
+
+
+{% if file %}
+    {% if user.is_authenticated %}
+        <form action="{% url 'download_file' %}"  method="post">
+          {% csrf_token %}
+<section class="deal">
+
+    <div class="content">
+        <h3><b>nomi: </b>{{ file.name }}</h3>
+        <h2>{{ file.title }}</h2>
+
+        <p><i class="fa fa-eye"></i>  {{ file.view }}</p>
+        <p><i class="fa fa-download"></i>  {{ file.count}}</p>
+        <p><i class="fa fa-money"></i>  {{ file.coin }}</p>
+
+
+
+
+            <input type="submit" value="download" name="url"  class="btn">
+
+            <input type="text"  value="{{ file.file }}"  name="url2"  hidden>
+
+            <input type="text"  value="{{ file.coin }}"  name="coin1"  hidden>
+            <input type="text"  value="{{ file.slug }}"  name="slug"  hidden>
+
+
+
+    </div>
+
+    <div class="image">
+        <img style="max-width: 240px ;max-height: 320px" src="{{ file.img }}" alt="">
+    </div>
+
+</section>
+
+        </form>
+
+
+
+
+
+        {% else %}
+        <section class="deal">
+
+    <div class="content">
+        <h3><b>nomi: </b>{{ file.name }}</h3>
+        <h2>{{ file.title }}</h2>
+
+        <p><i class="fa fa-eye"></i>  {{ file.view }}</p>
+        <p><i class="fa fa-download"></i>  {{ file.count}}</p>
+        <p><i class="fa fa-money"></i>  {{ file.coin }}</p>
+
+
+
+    </div>
+
+    <div class="image">
+        <img style="max-width: 240px ;max-height: 320px" src="{{ file.img }}" alt="">
+    </div>
+       <div class="alert">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                          <strong>Diqqat!</strong> Faylni yuklash uchun ro'yxattan o'ting !
+                        </div>
+</section>
+    {% endif %}
+{% endif %}
+
+
+        <section class="scroll-file">
+      <div class="container">
+        <div class="boxes">
+          <div class="box">
+
+            <p class="pi">
+                <img src="{% static "book/image/blog-1.jpg" %}" alt=""> <br>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus
+              est perspiciatis repellat quod mollitia, repellendus nostrum
+              debitis sunt minus necessitatibus atque, quibusdam dignissimos,
+              rem ipsa magni? Neque dignissimos dolores, ad cupiditate sed
+              fugiat, reiciendis quia iure commodi suscipit laborum earum ipsam
+              sint recusandae iusto temporibus saepe aut? Laboriosam sit eos
+              deserunt tempora magni soluta earum consequatur nam sunt nulla
+              tempore nobis ipsa, dolorem qui saepe accusamus repudiandae <br>
+                <img src="{% static "book/image/blog-2.jpg" %}" alt="">
+                <img src="{% static "book/image/blog-3.jpg" %}" alt="">
+                <img src="{% static "book/image/blog-4.jpg" %}" alt=""> <br>
+
+              quibusdam pariatur quae illo aspernatur beatae animi! Aliquid quos
+              non sunt neque! Pariatur expedita unde dolore vel iste magni
+              praesentium ad alias excepturi. Error sit velit enim possimus,
+              omnis quo, quae vero nisi provident deleniti vitae, necessitatibus
+              nam dicta. In quasi blanditiis, assumenda voluptatum ut delectus
+              sapiente consequuntur, tempora fugiat suscipit nihil recusandae
+              veniam ullam dolor molestiae quo esse illo non. Voluptas et cumque
+              placeat neque velit provident harum error quis, expedita eveniet,
+              omnis optio commodi est reprehenderit, ea temporibus aliquid
+              similique! Quibusdam iusto dicta harum velit vitae corporis vel
+              esse a, provident aliquid at consequatur eum maxime accusamus
+              delectus natus officia sequi voluptatem laudantium repellendus.
+              Quaerat dolores animi incidunt neque iusto! Voluptatum facilis
+              numquam voluptates? Tempora suscipit eaque enim consequatur. Ea
+              odit possimus enim nam nemo, itaque accusantium expedita porro
+              assumenda voluptatibus.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="{%  static  "book/js/script.js" %}"></script>
+<script src="{%  static  "js/main.js" %}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- home section starts  -->
+
+
+
+
+
+</body>
+</html>
+
+
+

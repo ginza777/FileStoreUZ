@@ -1,0 +1,424 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileStore.uz-o'zingizga kerakli fayllarni bir zumda toping</title>
+    <link rel="shortcut icon" type="image/ico" href="{% static  "assets/favicon1.ico"   %}">
+ <link rel="shortcut icon" type="image/ico" href="{% static  "assets/favicon.ico"   %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{%  static "book/css/style.css"  %}">
+
+</head>
+
+<body>
+
+    <script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<!-- header section starts  -->
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+</script>
+
+<header class="header">
+
+    <div class="header-1">
+
+        <a href="{%  url 'books' %}" class="logo"> <i class="fas fa-book"></i> Fayllar-Filestore.uz  </a>
+
+
+            <form action="{% url  'search_files' %}" class="search-form"  method="post">{% csrf_token %}
+                {% if search  %}
+            <input type="search" name="search"  autocomplete="off"  placeholder="search here..." id="search-box"  value="{{ search }}" required>
+
+                {% else %}
+            <input type="search" name="search"  autocomplete="off"  placeholder="search here..." id="search-box"  value="" required>
+                {% endif %}
+
+
+                <label for="search-box" class="fas fa-search"></label>
+        </form>
+
+        <div class="icons">
+            {% if user.is_authenticated %}
+                <div id="search-btn" class="fas fa-search"></div>
+
+
+            <div id="login-btn"  class="fas fa-user"><a style="color: red" href="{% url 'signout' %}">Logout</a></div>
+
+
+
+
+
+
+
+
+
+
+
+            {% else %}
+            <div id="search-btn" class="fas fa-search"></div>
+
+            <a href="#" class="fas fa-shopping-cart"></a>
+            <a href="{% url 'signin' %}"><div id="login-btn"  class="fas fa-user"></div></a>
+            <a href="{% url 'signup' %}"><div id="login-btn"  class="fas fa-user-plus"></div></a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+      <div class="header-2">
+        <nav class="navbar">
+            <a href="{% url 'books' %}">home</a>
+             <a href="{% url 'books' %}">Kitoblar</a>
+
+
+
+
+            <a href="#blogs">blogs</a>
+            <a href="{% url  'signin' %}">Sign In</a>
+            <a href="{%  url 'signup' %}">Sign Up</a>
+        </nav>
+    </div>
+
+</header>
+
+<!-- header section ends -->
+
+<!-- bottom navbar  -->
+
+<nav class="bottom-navbar">
+    <a href="{% url "books" %}" class="fas fa-home"></a>
+    <a href="{% url "files" %}" class="fas fa-list"></a>
+
+    <a href="#blogs" class="fas fa-blog"></a>
+    {% if user.is_authenticated %}
+    <a href="#" class="fas fa-user-secret"></a>
+    {% else %}
+    <a href="{% url 'signin' %}" class="fas fa-user"></a>
+    <a href="{% url 'signup' %}" class="fas fa-user-plus"></a>
+    {% endif %}
+</nav>
+
+<!-- search form  -->
+
+
+
+
+
+{#{% if books %}#}
+{#                         <section class="featured" id="featured">#}
+{##}
+{##}
+{##}
+{#                            <div class="swiper featured-slider">#}
+{#                            <div class="swiper-wrapper">#}
+{#                                {%  for book in books %}#}
+{#                                    <div class="swiper-slide box">#}
+{#                                            <div class="icons">#}
+{#                                            <a href="#" class="fas fa-search"></a>#}
+{#                                            <a href="#" class="fas fa-heart"></a>#}
+{#                                            <a href="#" class="fas fa-eye"></a>#}
+{#                                    </div>#}
+{#                                    <div class="image">#}
+{#                                        <img src={{ book.img }}    alt="">#}
+{#                                    </div>#}
+{#                                    <div class="content">#}
+{#                                         <h3>{{book.title|slice:"20"}}</h3>#}
+{#                                        <div class="price">Free <span style="color: red"> Premium</span></div>#}
+{#                                        <a href="#" class="btn">download</a>#}
+{#                                    </div>#}
+{#                                    </div>#}
+{#                                 {% endfor %}#}
+{#                            </div></div>#}
+{#                         </section>#}
+{#{% endif %}#}
+
+<section class="home" id="home">
+
+    <div class="row">
+
+        <div class="content">
+            <h3>Filestore.uz-Fayllar</h3>
+
+            <p>siz bu sayt orqali o'zingizga kerakli fayllarni tez va oson topishingiz va  o'zingizga qulay formatda yuklashingiz mumkin !!! </p>
+            <a href="#qidiruv2" class="btn" >Qidirish uchun bosing</a>
+        </div>
+
+        <div class="swiper books-slider">
+            <div class="swiper-wrapper">
+                {% for file in data_trend %}
+                <a href="{% url 'file_detail' file.slug %}" class="swiper-slide"><img style="max-height: 300px;max-width: 200px" src="{{ file.img }}" alt=""></a>
+   {% endfor %}
+
+            </div>
+            <img src="{%  static  "book/image/stand.png" %}" class="stand" alt="">
+        </div>
+
+    </div>
+
+</section>
+
+<!-- home section ense  -->
+
+<!-- icons section starts  -->
+
+<section class="icons-container">
+
+
+
+    <div class="icons">
+        <i class="fas fa-lock"></i>
+        <div class="content">
+            <h3>secure payment</h3>
+            <p>100 secure payment</p>
+        </div>
+    </div>
+
+    <div class="icons">
+        <i class="fas fa-redo-alt"></i>
+        <div class="content">
+            <h3>easy returns</h3>
+            <p>10 days returns</p>
+        </div>
+    </div>
+
+    <div class="icons">
+        <i class="fas fa-headset"></i>
+        <div class="content">
+            <h3>24/7 support</h3>
+            <p>call us anytime</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- icons section ends -->
+
+<!-- featured section starts  -->
+
+<section class="featured" id="featured">
+
+    <h1 class="heading"> <span>Filestore.uz</span> </h1>
+
+    <div class="swiper featured-slider">
+
+        <div class="swiper-wrapper">
+            {% if files %}
+{% for file in files %}
+            <div class="swiper-slide box">
+                <div class="icons">
+                    <a href="{%  url 'search_files' %}" class="fas fa-search"></a>
+                    <a href="#" class="fas fa-heart"></a>
+                    <a href="{% url 'file_detail' file.slug %}" class="fas fa-eye"></a>
+                </div>
+                <div class="image">
+                    <img style="max-width: 200px;max-height: 300px" src="{{ file.img }}" alt="">
+                </div>
+                <div class="content">
+                    <h3>{{ file.name }}</h3>
+{#                    <div class="price">$15.99 <span>$20.99</span></div>#}
+                    <a href="{% url 'file_detail' file.slug %}" class="btn">view</a>
+                </div>
+            </div>
+{% endfor%}
+{% endif %}
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+    </div>
+
+</section>
+
+<!-- featured section ends -->
+
+<!-- newsletter section starts -->
+
+<section class="newsletter " id="qidiruv2">
+
+    <form action="{% url  'search_files' %}"  method="post">{% csrf_token %}
+        <h3>Qidiruv</h3>
+        {% if search  %}
+        <input type="text" name="search" placeholder="so'zni kiriting ..." id="" class="box" value="{{ search }}" required>
+        <input type="submit" value="qidirish" class="btn">
+        {% else %}
+                    <input type="text" name="search" placeholder="so'zni kiriting ..." id="" class="box" >
+        <input type="submit" value="qidirish" class="btn">
+        {% endif %}
+    </form>
+
+
+</section>
+
+<!-- newsletter section ends -->
+
+<!-- arrivals section starts  -->
+
+
+
+<!-- arrivals section ends -->
+
+<!-- deal section starts  -->
+
+
+
+<!-- deal section ends -->
+
+<!-- reviews section starts  -->
+
+
+<!-- reviews section ends -->
+
+<!-- blogs section starts  -->
+
+<section class="blogs" id="blogs">
+
+    <h1 class="heading"> <span>bloglar</span> </h1>
+
+    <div class="swiper blogs-slider">
+
+        <div class="swiper-wrapper">
+
+          {% if blogs %}
+              {% for blog in blogs %}
+
+            <div class="swiper-slide box">
+                <div class="image">
+                    <img src="{{ blog.img.url }}" alt="">
+                </div>
+                <div class="content">
+                    <h3>{{ blog.title}}</h3>
+                    <p>{{ blog.description |slice:"40" }}</p>
+                    <a href="#" class="btn">read more</a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- blogs section ends -->
+
+<!-- footer section starts  -->
+<section class="footer">
+        <div class="share">
+        {% if contact %}
+        <a href="{{ contact.facebook }}" class="fab fa-facebook-f"></a>
+        <a href="{{ contact.telegram }}" class="fab fa-telegram"></a>
+        <a href="{{ contact.instagram }}" class="fab fa-instagram"></a>
+        <a href="{{ contact.linkedin }}" class="fab fa-linkedin"></a>
+        {% endif %}
+
+    </div>
+</section>
+
+
+<!-- footer section ends -->
+
+<!-- loader  -->
+
+
+
+
+
+<div class="login-form-container">
+
+    <div id="close-login-btn" class="fas fa-times"></div>
+
+    <form action="">
+        <h3>sign in</h3>
+        <span>username</span>
+        <input type="email" name="" class="box" placeholder="enter your email" id="">
+        <span>password</span>
+        <input type="password" name="" class="box" placeholder="enter your password" id="">
+        <div class="checkbox">
+            <input type="checkbox" name="" id="remember-me">
+            <label for="remember-me"> remember me</label>
+        </div>
+        <input type="submit" value="sign in" class="btn">
+        <p>forget password ? <a href="#">click here</a></p>
+        <p>don't have an account ? <a href="#">create one</a></p>
+    </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="{%  static  "book/js/script.js" %}"></script>
+<script src="{%  static  "js/main.js" %}"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- home section starts  -->
+
+
+
+
+
+</body>
+</html>
+
+
+

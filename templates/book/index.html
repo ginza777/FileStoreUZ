@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore-eng yangi va ommabop kitoblar</title>
+    <link rel="shortcut icon" type="image/ico" href="{% static  "assets/favicon1.webpm"   %}">
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{%  static "book/css/style.css"  %}">
+
+</head>
+
+<body>
+<style>
+.alert1 {
+  padding: 10px;
+  background-color: #10d365;
+  color: white;
+}.alert2 {
+  padding: 10px;
+
+  background-color: #ff0000;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 20px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 30px;
+  line-height: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+</style>
+    <script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<!-- header section starts  -->
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+</script>
+
+
+<header class="header">
+
+    <div class="header-1">
+
+        <a href="{%  url 'books' %}" class="logo"> <i class="fas fa-book"></i> Kitoblar-Filestore </a>
+
+
+            <form action="{% url  'search_books' %}" class="search-form"  method="post">{% csrf_token %}
+
+                    {% if search %}
+                <input type="search" name="search" autocomplete="off"  placeholder="search here..." id="search-box"  value="{{ search }}" required>
+
+                    {% else %}
+                <input type="search" name="search" autocomplete="off"  placeholder="search here..." id="search-box"  value="" required>
+                    {% endif %}
+
+
+                    <label for="search-box" class="fas fa-search"></label>
+            </form>
+
+        <div class="icons">
+            {% if user.is_authenticated %}
+                <div id="search-btn" class="fas fa-search"></div>
+
+
+            <div id="login-btn"  class="fas fa-user"><a style="color: red" href="{% url 'signout' %}">Logout</a></div>
+
+
+
+
+
+
+
+
+
+
+
+            {% else %}
+
+            <div id="search-btn" class="fas fa-search"></div>
+
+            <a href="#" class="fas fa-shopping-cart"></a>
+            <a href="{% url 'signin' %}"><div id="login-btn"  class="fas fa-user"></div></a>
+            <a href="{% url 'signup' %}"><div id="login-btn"  class="fas fa-user-plus"></div></a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+      <div class="header-2">
+        <nav class="navbar">
+            <a href="{% url 'books' %}">Home</a>
+            <a href="{% url 'files' %}">Fayllar</a>
+            <a href="#featured">featured</a>
+            <a href="#arrivals">arrivals</a>
+            <a href="#reviews">reviews</a>
+            <a href="#blogs">blogs</a>
+            <a href="{% url  'signin' %}">Sign In</a>
+            <a href="{%  url 'signup' %}">Sign Up</a>
+        </nav>
+    </div>
+
+</header>
+    {% if user.is_authenticated %}
+        <div class="alert1">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                         <strong style="font-size: larger">Assalomu aleykum {{ user.username }}</strong></div>
+
+    {% else %}
+    <div class="alert2">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                         <strong style="font-size: larger">Saytdan to'liq foydalanish uchun ro'yxatdan o'tish shart</strong>
+                         <strong style="font-size: larger">Fayllarni yuklab ololmaysiz!!!</strong></div>    <div class="alert2">
+                          <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+
+                         <strong style="font-size: larger">Fayllarni yuklab ololmaysiz!!!</strong></div>
+    {% endif %}
+<!-- header section ends -->
+
+<!-- bottom navbar  -->
+
+<nav class="bottom-navbar">
+    <a href="{% url "books" %}" class="fas fa-home"></a>
+    <a href="{% url "files" %}" class="fas fa-list"></a>
+    <a href="#arrivals" class="fas fa-tags"></a>
+    <a href="#reviews" class="fas fa-comments"></a>
+    <a href="#blogs" class="fas fa-blog"></a>
+    {% if user.is_authenticated %}
+    <a href="#" class="fas fa-user-secret"></a>
+    {% else %}
+    <a href="{% url 'signin' %}" class="fas fa-user"></a>
+    <a href="{% url 'signup' %}" class="fas fa-user-plus"></a>
+    {% endif %}
+</nav>
+
+<!-- search form  -->
+
+
+
+
+{% if search_books %}
+
+<section class="search-card">
+      <div class="container">
+        <div class="boxes">
+            {% for book in search_books %}
+
+            <div class="box">
+                <div class="box-left">
+                    <a href="{% url "book_detail" book.slug %}">
+                        <img src="{{ book.img }}" alt="">
+                    </a>
+                </div>
+                <div class="box-right">
+                    <a href="{% url "book_detail" book.slug %}">
+                        <h2>{{ book.name }}</h2>
+                    </a>
+                    <div class="text-info">
+
+                        <span>{{ book.count }}</span>
+                        <span>cdbhbdjs</span>
+                        <span>ssvdbld</span>
+                        <br>
+                    </div>
+                    {{ book.slug }}
+                </div>
+            </div>
+        {% endfor %}
+
+        </div>
+      </div>
+</section>
+{% else %}
+
+{% block content %}
+
+{% endblock %}
+
+
+{% endif %}
+
+
+
+
+
+
+
+<!-- home section starts  -->
+
+
+
+
+
+</body>
+</html>
